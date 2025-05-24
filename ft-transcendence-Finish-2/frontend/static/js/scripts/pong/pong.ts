@@ -1,4 +1,4 @@
-	import { Ball, Pad, Tournament, Timer } from "./objects.js";
+import { Ball, Pad, Tournament, Timer } from "./objects.js";
 	import { BASE_URL } from '../../index.js';
 	import { updateTextForElem } from "../../utils/languages.js";
 	import { authFetch } from "../../utils/authFetch.js";
@@ -152,11 +152,17 @@
         showPauseModal() {
   const modal = document.getElementById('pauseModal') as HTMLElement;
   modal.classList.remove('hidden');
+  // Pause the timer and game loop
+  this.timer.stop();
+  this.stopInterval();
 }
 
 hidePauseModal() {
   const modal = document.getElementById('pauseModal') as HTMLElement;
   modal.classList.add('hidden');
+  // Resume the timer and game loop
+  this.timer.start();
+  this.startGameLoop();
 }
 
 showEndGameModal() {
@@ -329,33 +335,74 @@ showToast(message: string) {
 	}
 
 	endTournament(side: "left" | "right"): void {
-		console.log("Ending tournament. Winner:", side);
 		updateTextForElem(this.matchEndLabel, "won-the-tournament");
-		this.endgameModalWinner.textContent = this.usernames[this.currentMatch[side]];
-		this.endgameModalScore.textContent = this.leftPad.score + "-" + this.rightPad.score;
-		this.endgameModalTime.textContent = this.timer.getTime();
-		this.sendMatchData(this.usernames[this.currentMatch[side]]);
+		const winnerName = this.usernames[this.currentMatch[side]];
+		const winnerColor = this.colors[this.currentMatch[side]];
+		this.endgameModalWinner.textContent = `Winner: ${winnerName}`;
+		this.endgameModalScore.textContent = `Score: ${this.leftPad.score} - ${this.rightPad.score}`;
+		this.endgameModalTime.textContent = `Time: ${this.timer.getTime()}`;
+		// Always use high-contrast text color
+		this.endgameModalWinner.style.color = getContrastColor(winnerColor);
+		// Set color block
+		const colorBlock = document.getElementById('winnerColorBlock') as HTMLElement;
+		if (colorBlock) {
+			colorBlock.style.backgroundColor = winnerColor;
+			colorBlock.style.border = '2px solid #222'; // darker border for visibility on white
+		}
+		// Make score and time visible with high contrast
+		this.endgameModalScore.style.color = '#222'; // always dark text
+		this.endgameModalScore.style.background = '#fff';
+		this.endgameModalScore.style.padding = '2px 8px';
+		this.endgameModalScore.style.borderRadius = '4px';
+		this.endgameModalScore.style.display = 'inline-block';
+		this.endgameModalTime.style.color = '#222'; // always dark text
+		this.endgameModalTime.style.background = '#fff';
+		this.endgameModalTime.style.padding = '2px 8px';
+		this.endgameModalTime.style.borderRadius = '4px';
+		this.endgameModalTime.style.display = 'inline-block';
 		this.showEndGameModal();
 
 	}
 
-endGame(winner: string): void {
-    this.stopGameLoop();
-    this.gameOver = true;
-    this.sendMatchData(winner);
-
-    if (this.matchEndLabel) {
-        updateTextForElem(this.matchEndLabel, "won-the-game");
-        this.matchEndLabel.classList.remove('hidden');
-    } else {
-        console.warn("⚠️ matchEndLabel not found in the DOM. Showing toast instead.");
-        this.showToast(`Game Over! Winner: ${winner}`);
-    }
-    this.endgameModalWinner.textContent = winner;
-    this.endgameModalScore.textContent = this.leftPad.score + "-" + this.rightPad.score;
-    this.endgameModalTime.textContent = this.timer.getTime();
-    this.showEndGameModal();
-}
+	endGame(winner: string): void {
+		this.stopGameLoop();
+		this.gameOver = true;
+		this.sendMatchData(winner);
+		if (this.matchEndLabel) {
+			updateTextForElem(this.matchEndLabel, "won-the-game");
+			this.matchEndLabel.classList.remove('hidden');
+		} else {
+			this.showToast(`Game Over! Winner: ${winner}`);
+		}
+		let winnerColor = "#fff";
+		if (winner === this.usernames.p1) winnerColor = this.colors.p1;
+		else if (winner === this.usernames.p2) winnerColor = this.colors.p2;
+		else if (winner === "AI") winnerColor = "#fff";
+		// If winner color is white or AI, force black text for visibility
+		const isWhite = winnerColor.toLowerCase() === "#fff" || winnerColor.toLowerCase() === "#ffffff";
+		this.endgameModalWinner.textContent = `Winner: ${winner}`;
+		this.endgameModalScore.textContent = `Score: ${this.leftPad.score} - ${this.rightPad.score}`;
+		this.endgameModalTime.textContent = `Time: ${this.timer.getTime()}`;
+		this.endgameModalWinner.style.color = isWhite ? '#222' : getContrastColor(winnerColor);
+		// Set color block
+		const colorBlock = document.getElementById('winnerColorBlock') as HTMLElement;
+		if (colorBlock) {
+			colorBlock.style.backgroundColor = winnerColor;
+			colorBlock.style.border = '2px solid #fff'; // white border for contrast
+		}
+		// Make score and time visible with high contrast
+		this.endgameModalScore.style.color = '#222'; // always dark text
+		this.endgameModalScore.style.background = '#fff';
+		this.endgameModalScore.style.padding = '2px 8px';
+		this.endgameModalScore.style.borderRadius = '4px';
+		this.endgameModalScore.style.display = 'inline-block';
+		this.endgameModalTime.style.color = '#222'; // always dark text
+		this.endgameModalTime.style.background = '#fff';
+		this.endgameModalTime.style.padding = '2px 8px';
+		this.endgameModalTime.style.borderRadius = '4px';
+		this.endgameModalTime.style.display = 'inline-block';
+		this.showEndGameModal();
+	}
 
 	async sendMatchData(winner: string): Promise<void> {
 		const date = new Date();
@@ -422,17 +469,28 @@ endGame(winner: string): void {
 	}
 
 	pauseGame(): void {
-		if (this.gameStarted && !this.gameOver) {
-			if (!this.paused) {
-				this.stopInterval();
-				this.showPauseModal();
-
-			} else {
-				this.startGameLoop();
-			}
-			this.paused = !this.paused;
-		}
-	}
+    const pauseModal = document.getElementById('pauseModal');
+    if (this.gameStarted && !this.gameOver) {
+        if (!this.paused) {
+            this.stopInterval();
+            this.showPauseModal();
+            // Add ESC listener to close pause modal
+            const escListener = (event: KeyboardEvent) => {
+                if (event.code === 'Escape') {
+                    this.hidePauseModal();
+                    this.startGameLoop();
+                    this.paused = false;
+                    document.removeEventListener('keydown', escListener);
+                }
+            };
+            document.addEventListener('keydown', escListener);
+        } else {
+            this.startGameLoop();
+            this.hidePauseModal();
+        }
+        this.paused = !this.paused;
+    }
+}
 
 	drawRect(x: number, y: number, w: number, h: number, color: string): void {
 		this.ctx.fillStyle = color;
@@ -564,4 +622,17 @@ endGame(winner: string): void {
 		this.stopInterval();
 		this.gameOver = true;
 	}
+}
+
+// Utility function for contrast color (black or white)
+function getContrastColor(hex: string): string {
+    // Remove # if present
+    hex = hex.replace('#', '');
+    // Parse r,g,b
+    let r = parseInt(hex.substring(0,2), 16);
+    let g = parseInt(hex.substring(2,4), 16);
+    let b = parseInt(hex.substring(4,6), 16);
+    // Calculate luminance
+    let luminance = (0.299*r + 0.587*g + 0.114*b)/255;
+    return luminance > 0.5 ? '#222' : '#fff';
 }

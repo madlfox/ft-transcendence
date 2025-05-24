@@ -1,4 +1,3 @@
-
 import AbstractView from "./AbstractView.js";
 import { PongGame, eventListeners }  from "../scripts/pong/pong.js";
  import { initCursorClickEffect } from "../visual/effects.js";
@@ -31,8 +30,8 @@ private pongGame!: PongGame;
   <!-- Pause Modal -->
   <div id="pauseModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-5 rounded-lg">
-      <h2 class="text-2xl text-center mb-4">Game Paused</h2>
-      <p class="text-center">Press escape to continue</p>
+      <h2 class="text-2xl text-center mb-4" style="color: #222;">Game Paused</h2>
+      <p class="text-center" style="color: #222;">Press escape to continue</p>
     </div>
   </div>
 
