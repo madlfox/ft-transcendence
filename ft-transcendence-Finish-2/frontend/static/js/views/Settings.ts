@@ -1,4 +1,3 @@
-
 import AbstractView from "./AbstractView.js";
 import { settings } from "../scripts/settings.js";
 
@@ -6,7 +5,7 @@ import { settings } from "../scripts/settings.js";
 export default class SettingsView extends AbstractView {
 	constructor() {
 		super();
-		this.setTitle("satori - settings");
+		this.setTitle("quanta - settings");
 	}
 
 	getHtml(): Promise<string> {

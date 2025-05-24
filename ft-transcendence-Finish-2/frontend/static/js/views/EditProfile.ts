@@ -1,11 +1,10 @@
-
 import AbstractView from "./AbstractView.js";
 import { editProfile /*, eventListeners*/ } from "../scripts/editProfile.js";
 
 export default class EditProfileView extends AbstractView {
   constructor() {
     super();
-    this.setTitle("satori - edit profile");
+    this.setTitle("quanta - edit profile");
   }
 
   /** Fetches the static HTML fragment and returns its text. */

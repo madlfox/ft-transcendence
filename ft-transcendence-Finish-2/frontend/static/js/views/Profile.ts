@@ -1,4 +1,3 @@
-
 import AbstractView from "./AbstractView.js";
 import { profile } from "../scripts/profile.js";
 
@@ -6,7 +5,7 @@ import { profile } from "../scripts/profile.js";
 export default class ProfileView extends AbstractView {
 	constructor() {
 		super();
-		this.setTitle("satori - profile");
+		this.setTitle("quanta - profile");
 	}
 
 	// async getHtml(): Promise<string> {

@@ -1,11 +1,10 @@
-
- import AbstractView from "./AbstractView.js";
+import AbstractView from "./AbstractView.js";
 // import { refreshTailwind } from "../refreshTailwind.js"; 
 
 export default class HomeView extends AbstractView {
   constructor() {
     super();
-    this.setTitle("satori - home");
+    this.setTitle("quanta - home");
   }
 
   async getHtml(): Promise<string> {

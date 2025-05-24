@@ -1,11 +1,10 @@
-
 import AbstractView from "./AbstractView.js";
 import { verify2FA } from "../scripts/verify2fa.js";
 
 export default class Verify2FAView extends AbstractView {
   constructor() {
     super();
-    this.setTitle("satori - verify 2FA");
+    this.setTitle("quanta - verify 2FA");
   }
 
   getHtml(): Promise<string> {

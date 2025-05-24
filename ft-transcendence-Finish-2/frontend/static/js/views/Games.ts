@@ -1,10 +1,9 @@
-
 import AbstractView from "./AbstractView.js";
 
 export default class GamesView extends AbstractView {
 	constructor() {
 		super();
-		this.setTitle("satori - games");
+		this.setTitle("quanta - games");
 	}
 
 	async getHtml(): Promise<string> {

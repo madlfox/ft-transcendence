@@ -4,7 +4,7 @@ import { signUp } from "../scripts/signUp.js";
 export default class SignUpView extends AbstractView {
     constructor() {
         super();
-        this.setTitle("satori - sign up");
+        this.setTitle("quanta - sign up");
     }
 
     async getHtml(): Promise<string> {

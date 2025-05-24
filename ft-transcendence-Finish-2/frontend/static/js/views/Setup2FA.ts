@@ -4,7 +4,7 @@ import { setup2FA } from "../scripts/setup2fa.js";
 export default class extends AbstractView {
   constructor() {
     super();
-    this.setTitle("satori - setup 2FA");
+    this.setTitle("quanta - setup 2FA");
   }
 
   async getHtml() {

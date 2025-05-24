@@ -1,4 +1,3 @@
-
 import AbstractView from "./AbstractView.js";
 import { pongStatistics } from "../scripts/pongStatistics.js";
 
@@ -7,7 +6,7 @@ import { pongStatistics } from "../scripts/pongStatistics.js";
 export default class PongStatisticsView extends AbstractView  {
 	constructor() {
 		super();
-		this.setTitle("satori - pong statistics");
+		this.setTitle("quanta - pong statistics");
 	}
 
 	getHtml(): Promise<string> {

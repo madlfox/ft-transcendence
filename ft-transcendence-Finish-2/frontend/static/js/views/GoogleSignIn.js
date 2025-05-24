@@ -4,7 +4,7 @@ import { googleSignIn } from "../scripts/googleSignIn.js";
 export default class extends AbstractView {
   constructor() {
     super();
-    this.setTitle("Google Sign-In");
+    this.setTitle("quanta - google sign in");
   }
 
   async getHtml() {
@@ -37,7 +37,7 @@ import { googleSignIn } from "../scripts/googleSignIn.js";
 export default class extends AbstractView {
 	constructor() {
 		super();
-		this.setTitle("satori - google sign in");
+		this.setTitle("quanta - google sign in");
 	}
 
 	async getHtml() {
