@@ -1,4 +1,3 @@
-
 import { updateTextForElem } from "../../utils/languages.js";
 
 
@@ -21,6 +20,7 @@ export class Tournament {
 	playerArray1: string[];
 	playerArray2: { left?: string; right?: string };
 	currentMatch: { left: string; right: string } | undefined;
+	matchScore: { left: number; right: number }; // Add this property
 
 	constructor(pNumber: number, usernames: { [key: string]: string }, pG: any) {
 		this.playerNumber = pNumber;
@@ -46,6 +46,7 @@ export class Tournament {
 
 		this.playerArray2 = {};
 		this.currentMatch = undefined;
+		this.matchScore = { left: 0, right: 0 }; // Initialize matchScore
 	}
 
     // Open Modals
@@ -117,11 +118,15 @@ closeMatchEndModal() {
 					break;
 				case 2:
 					this.tournamentOver = true;
+
 					break;
 			}
 		}
 
 		if (!this.tournamentOver && this.currentMatch) {
+			// Update matchScore
+			this.matchScore[side] += 1;
+
 			if (this.matchIdModal)
 				this.matchIdModal.textContent = (this.matchId + 1).toString();
 			if (this.winner)
@@ -129,9 +134,15 @@ closeMatchEndModal() {
 			if (this.timeElapsed)
 				this.timeElapsed.textContent = this.pG.timer.getTime();
 
-
+	// Ensure tournament ends if matchId exceeds maxMatchNb
+			if (this.matchId > this.maxMatchNb) {
+				this.tournamentOver = true;
+				console.log("Tournament is over.");
+			}
             this.openMatchEndModal();
+			console.log("Match ended. Winner: " + this.usernames[this.currentMatch[side]]);
 			this.matchId++;
+			console.log("Next match ID: " + this.matchId);
 		}
 	}
 

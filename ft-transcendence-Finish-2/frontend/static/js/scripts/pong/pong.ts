@@ -211,15 +211,42 @@ showToast(message: string) {
 		}
 	
 		winMatch(side: "left" | "right"): void {
+			console.log("Match won by:", side);
 			this.stopGameLoop();
 			this.totalTime += (this.timer.min * 60) + this.timer.sec;
 			this.gameOver = true;
-			this.matchScore.textContent = `${this.leftPad.score}-${this.rightPad.score}`;
+			if (this.matchScore)
+				this.matchScore.textContent = `${this.leftPad.score}-${this.rightPad.score}`;
 			this.tournament!.setCurrentMatchWinner(side);
+		
 			if (this.tournament!.tournamentOver) {
+				console.log("Tournament is over. Ending tournament...");
 				this.endTournament(side);
+			} else {
+				console.log("Tournament continues. Preparing next match...");
+				this.initTournamentMatch();
 			}
 		}
+
+		// winMatch(side: "left" | "right"): void {
+		// 	console.log("Match won by:", side);
+		// 	this.stopGameLoop();
+		// 	this.totalTime += (this.timer.min * 60) + this.timer.sec;
+		// 	this.gameOver = true;
+		// 	this.matchScore.textContent = `${this.leftPad.score}-${this.rightPad.score}`;
+		// 	this.tournament!.setCurrentMatchWinner(side);
+		// 	// if (this.tournament!.tournamentOver) {
+		// 	// 	this.endTournament(side);
+		// 	// }
+			
+		// 	if (this.tournament!.tournamentOver) {
+		// 		console.log("Tournament is over. Ending tournament...");
+		// 		this.endTournament(side);
+		// 	} else {
+		// 		console.log("Tournament continues. Preparing next match...");
+		// 		this.initTournamentMatch();
+		// 	}
+		// }
 	
 	initTournamentMatch(): void {
 		console.log("Current Match:", this.currentMatch);
@@ -302,6 +329,7 @@ showToast(message: string) {
 	}
 
 	endTournament(side: "left" | "right"): void {
+		console.log("Ending tournament. Winner:", side);
 		updateTextForElem(this.matchEndLabel, "won-the-tournament");
 		this.endgameModalWinner.textContent = this.usernames[this.currentMatch[side]];
 		this.endgameModalScore.textContent = this.leftPad.score + "-" + this.rightPad.score;
