@@ -39,6 +39,9 @@
         <div class="text-center flex flex-col mb-4">
             <p class="text-white text-2xl mt-3">
                 <span id="currentGamemodeLabel"></span>・<span id="currentGamestyleLabel"></span>
+                <span id="keyText">Keys </span>
+                <span id="keyText">Keys </span>
+                <span id="keyText">Keys </span>
             </p>
         </div>
 
