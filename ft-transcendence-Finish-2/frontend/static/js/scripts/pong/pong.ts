@@ -16,7 +16,7 @@ import { Ball, Pad, Tournament, Timer } from "./objects.js";
 		endgameModalScore: HTMLElement;
 		endgameModalTime: HTMLElement;
 		endgameModalPlayAgain: HTMLElement;
-		tournamentModalNextMatch: HTMLElement;
+		// tournamentModalNextMatch: HTMLElement;
 		pauseModal: any;
 		endgameModal: any;
 		matchScore: HTMLElement;
@@ -72,7 +72,7 @@ import { Ball, Pad, Tournament, Timer } from "./objects.js";
 			this.endgameModalScore = document.getElementById('endgameModalScore')!;
 			this.endgameModalTime = document.getElementById('endgameModalTime')!;
 			this.endgameModalPlayAgain = document.getElementById('playAgainButton')!;
-			this.tournamentModalNextMatch = document.getElementById('nextMatchButton')!;
+			// this.tournamentModalNextMatch = document.getElementById('nextMatchButton')!;
 
 			this.matchScore = document.getElementById('matchScore')!;
 			this.modalColorBox1 = document.getElementById('colorBoxLeft')!;
@@ -132,7 +132,7 @@ import { Ball, Pad, Tournament, Timer } from "./objects.js";
 	
 			this.startButton.addEventListener("click", () => this.startGame());
 			this.endgameModalPlayAgain.addEventListener("click", () => this.resetGame());
-			this.tournamentModalNextMatch.addEventListener("click", () => this.initTournamentMatch());
+			// this.tournamentModalNextMatch.addEventListener("click", () => this.initTournamentMatch());
 	
 			document.addEventListener("keydown", this.boundPongHandleKeyDown);
 			eventListeners["keydown"] = this.boundPongHandleKeyDown;

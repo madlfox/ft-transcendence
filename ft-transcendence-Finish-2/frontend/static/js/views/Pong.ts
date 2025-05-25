@@ -44,9 +44,6 @@ private pongGame!: PongGame;
       <button id="playAgainButton" class="bg-indigo-600 text-white py-2 px-4 mt-3 rounded-lg hover:bg-indigo-700">
         Play Again
       </button>
-      <button id="nextMatchButton" class="bg-green-600 text-white py-2 px-4 mt-3 rounded-lg hover:bg-green-700">
-        Next Match
-      </button>
     </div>
   </div>
 
@@ -177,7 +174,7 @@ loadJS() {
     // const closeMatchEndButton = document.getElementById('closeMatchEndModal') as HTMLButtonElement;
     const closeMatchEndButton = document.querySelector('#tournamentMatchEndModal button') as HTMLButtonElement;
 
-    const nextMatchButton = document.getElementById('nextMatchButton') as HTMLButtonElement;
+    // const nextMatchButton = document.getElementById('nextMatchButton') as HTMLButtonElement;
     const playAgainButton = document.getElementById('playAgainButton') as HTMLButtonElement;
 
     // Attach listeners safely
@@ -202,15 +199,15 @@ loadJS() {
 }
 
 
-    if (nextMatchButton) {
-      nextMatchButton.addEventListener('click', () => {
-        console.log("Starting next tournament match");
-        this.pongGame.initTournamentMatch();
-        document.getElementById('endgameModal')?.classList.add('hidden');
-      });
-    } else {
-      console.warn("nextMatchButton not found in the DOM.");
-    }
+    // if (nextMatchButton) {
+    //   nextMatchButton.addEventListener('click', () => {
+    //     console.log("Starting next tournament match");
+    //     this.pongGame.initTournamentMatch();
+    //     document.getElementById('endgameModal')?.classList.add('hidden');
+    //   });
+    // } else {
+    //   console.warn("nextMatchButton not found in the DOM.");
+    // }
 
     if (playAgainButton) {
       playAgainButton.addEventListener('click', () => {

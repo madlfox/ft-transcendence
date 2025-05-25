@@ -39,16 +39,6 @@ export const gamestyleModalHTML = `
         >
           Enhanced
         </button>
-        <button
-          class="px-4 py-2 rounded-lg bg-gradient-to-r from-gray-700 to-gray-800 shadow-md shadow-indigo-700/20 relative overflow-hidden
-            before:absolute before:inset-0 before:bg-gradient-to-br before:from-indigo-500/10 before:to-transparent before:pointer-events-none
-            hover:shadow-lg hover:shadow-indigo-400/40 hover:from-gray-600 hover:to-gray-700 transition-all duration-200
-            font-semibold text-white"
-          id="btn3D"
-          data-translate="3D"
-        >
-          3D
-        </button>
       </div>
       <div class="flex flex-col items-center mt-6">
         <p class="text-white text-center" id="gamestyleDescription"></p>
@@ -440,7 +430,7 @@ if (this.settingsModal) {
 		this.gamestyle = gamestyleString ? JSON.parse(gamestyleString) : "enhanced";
 		localStorage.setItem('pongGamestyle', JSON.stringify(this.gamestyle));
 
-		this.btnStartGame.href = this.gamestyle === "3D" ? "/pong3d" : "/pong";
+		this.btnStartGame.href =  "/pong";
 		updateTextForElem(this.currentGamemodeLabel, this.gamemode);
 		updateTextForElem(this.currentGamestyleLabel, this.gamestyle);
 
@@ -840,13 +830,13 @@ showKeysConfig(): void {
 				break;
 		}
 	
-		if (this.gamestyle === "3D") {
-			btnAI.disabled = true;
-			btnTournament.disabled = true;
+		// if (this.gamestyle === "3D") {
+		// 	btnAI.disabled = true;
+		// 	btnTournament.disabled = true;
 	
-			const disclaimer = document.getElementById('disclaimer') as HTMLElement;
-			updateTextForElem(disclaimer, "3D-disclaimer");
-		}
+		// 	const disclaimer = document.getElementById('disclaimer') as HTMLElement;
+		// 	updateTextForElem(disclaimer, "3D-disclaimer");
+		// }
 	
 		localStorage.setItem("pongGamemode", JSON.stringify(this.gamemode));
 		// this.settingsModal.show();
@@ -911,14 +901,14 @@ closeModal(modalId: string): void {
 	
 		const btnLegacy = document.getElementById('btnLegacy') as HTMLButtonElement;
 		const btnEnhanced = document.getElementById('btnEnhanced') as HTMLButtonElement;
-		const btn3D = document.getElementById('btn3D') as HTMLButtonElement;
+		// const btn3D = document.getElementById('btn3D') as HTMLButtonElement;
 	
 		const gamestyleDescription = document.getElementById('gamestyleDescription') as HTMLElement;
 		const availableGamemodes = document.getElementById('availableGamemodes') as HTMLElement;
 	
 		btnLegacy.addEventListener("click", (event) => this.selectGamestyle(event, "legacy"));
 		btnEnhanced.addEventListener("click", (event) => this.selectGamestyle(event, "enhanced"));
-		btn3D.addEventListener("click", (event) => this.selectGamestyle(event, "3D"));
+		// btn3D.addEventListener("click", (event) => this.selectGamestyle(event, "3D"));
 	
 		switch (this.gamestyle) {
 			case "legacy":
@@ -931,10 +921,10 @@ closeModal(modalId: string): void {
 				updateTextForElem(availableGamemodes, "available-gamemodes-all");
 				break;
 	
-			case "3D":
-				updateTextForElem(gamestyleDescription, "3D-desc");
-				updateTextForElem(availableGamemodes, "available-gamemodes-pvp");
-				break;
+			// case "3D":
+			// 	updateTextForElem(gamestyleDescription, "3D-desc");
+			// 	updateTextForElem(availableGamemodes, "available-gamemodes-pvp");
+			// 	break;
 	
 			default:
 				break;
@@ -950,7 +940,7 @@ closeModal(modalId: string): void {
 		const gamestyles: Record<string, HTMLElement> = {
 			legacy: btnLegacy,
 			enhanced: btnEnhanced,
-			"3D": btn3D,
+			// "3D": btn3D,
 		};
 	
 		this.applySelectedSetting("pongGamestyle", gamestyles);
@@ -988,17 +978,17 @@ selectGamestyle(event: Event, gamestyle: string): void {
 	// this.toastBootstrap.show();
      this.showToast();
 
-	if (gamestyle === "3D") {
-		this.lastGamemode = this.gamemode;
-		this.gamemode = "pvp";
-		updateTextForElem(this.currentGamemodeLabel, this.gamemode);
-	} else if (this.gamestyle === "3D" && gamestyle !== this.gamestyle) {
-		this.gamemode = this.lastGamemode;
-		updateTextForElem(this.currentGamemodeLabel, this.gamemode);
-	}
+	// if (gamestyle === "3D") {
+	// 	this.lastGamemode = this.gamemode;
+	// 	this.gamemode = "pvp";
+	// 	updateTextForElem(this.currentGamemodeLabel, this.gamemode);
+	// } else if (this.gamestyle === "3D" && gamestyle !== this.gamestyle) {
+	// 	this.gamemode = this.lastGamemode;
+	// 	updateTextForElem(this.currentGamemodeLabel, this.gamemode);
+	// }
 
 	this.gamestyle = gamestyle;
-	this.btnStartGame.href = this.gamestyle === "3D" ? "/pong3d" : "/pong";
+	this.btnStartGame.href =  "/pong";
 
 	localStorage.setItem('pongGamestyle', JSON.stringify(this.gamestyle));
 	localStorage.setItem('pongGamemode', JSON.stringify(this.gamemode));
